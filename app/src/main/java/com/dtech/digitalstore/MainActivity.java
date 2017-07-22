@@ -20,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
         initComponent();
         IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setPrompt("Scan a barcode");
-        integrator.setOrientationLocked(false);
+        integrator.setPrompt("");
+        //integrator.setOrientationLocked(false);
         integrator.setCameraId(0);
+        integrator.setBeepEnabled(false);
+        integrator.setBarcodeImageEnabled(true);
         integrator.initiateScan();
     }
 
