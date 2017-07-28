@@ -20,12 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-
-            >
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".FirstActivity"
             android:label="@string/title_activity_first"
@@ -36,6 +31,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AnyOrientationCaptureActivity"
+
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"></activity>
     </application>
 
 </manifest>

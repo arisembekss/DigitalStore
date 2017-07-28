@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
         initComponent();
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setPrompt("");
-        //integrator.setOrientationLocked(false);
+        integrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
+        integrator.setOrientationLocked(false);
         integrator.setCameraId(0);
         integrator.setBeepEnabled(false);
         integrator.setBarcodeImageEnabled(true);

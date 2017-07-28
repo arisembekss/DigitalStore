@@ -3,4 +3,5 @@
     <string name="title_activity_first">FirstActivity</string>
     <string name="title">Digital Store</string>
     <string name="scan_btn">Tekan tombol diatas\nuntuk scan meja anda</string>
+    <string name="title_activity_any_orientation_capture">AnyOrientationCaptureActivity</string>
 </resources>
