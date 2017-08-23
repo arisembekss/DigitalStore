@@ -3,6 +3,7 @@ package com.dtech.digitalstore;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                t1.setText(result.getContents());
+                byte[] decoded = Base64.decode(result.getContents(), Base64.DEFAULT);
+                String decvalue = new String(decoded);
+                //t1.setText(result.getContents());
+                t1.setText(decvalue);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
