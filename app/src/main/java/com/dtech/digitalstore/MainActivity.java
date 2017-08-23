@@ -1,7 +1,14 @@
 package com.dtech.digitalstore;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.PersistableBundle;
+import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -10,17 +17,25 @@ import android.widget.Toast;
 
 import com.dtech.digitalstore.config.Config;
 import com.dtech.digitalstore.config.PrefManager;
+import com.dtech.digitalstore.fragments.FrBeverage;
+import com.dtech.digitalstore.fragments.FrFood;
+import com.dtech.digitalstore.fragments.FrOrder;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
 import java.io.UnsupportedEncodingException;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView t1;
+    BottomBar bottomBar;
     PrefManager prefManager;
     SharedPreferences sharedPreferences;
-
+    FragmentTransaction fragmentTransaction;
+    FragmentManager fragmentManager;
+    Fragment fragment;
     String prefMeja, prefToko;
 
     @Override
@@ -30,6 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
         prefManager = new PrefManager(this);
 
+        fragment = new FrFood();
+        fragmentManager = getSupportFragmentManager();
+
+
+        if (savedInstanceState == null) {
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frfood, fragment);
+            fragmentTransaction.commitAllowingStateLoss();
+        }
         //initComponent();
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setPrompt("");
@@ -39,12 +63,39 @@ public class MainActivity extends AppCompatActivity {
         integrator.setBeepEnabled(false);
         integrator.setBarcodeImageEnabled(true);
         integrator.initiateScan();
+
+
     }
 
     private void initComponent() {
         sharedPreferences = getSharedPreferences(Config.PREF_NAME, Config.PRIVATE_MODE);
         prefToko = (sharedPreferences.getString(Config.NAMA_TOKO, ""));
         prefMeja = (sharedPreferences.getString(Config.NOMOR_MEJA, ""));
+
+        bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                //fragmentManager = getSupportFragmentManager();
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                if (tabId == R.id.tab_food) {
+                    fragment = new FrFood();
+
+                } else if (tabId == R.id.tab_beverage) {
+                    fragment = new FrBeverage();
+
+                } else if (tabId == R.id.tab_order) {
+                    fragment = new FrOrder();
+
+                }
+                /*fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();*/
+                fragmentTransaction.replace(R.id.frfood, fragment);
+                fragmentTransaction.commitAllowingStateLoss();
+
+            }
+        });
         t1 = (TextView) findViewById(R.id.t1);
 
         t1.setText("Selamat Datang di "+prefToko+"\nAnda berada di : "+prefMeja);
@@ -68,25 +119,48 @@ public class MainActivity extends AppCompatActivity {
     private void prosesQr(String qrmeja) {
         byte[] decoded = Base64.decode(qrmeja, Base64.DEFAULT);
         String decvalue = new String(decoded);
-        String[] qrarray = decvalue.split(",");
-        String namaToko = qrarray[1];
-        String nomorMeja = qrarray[0];
-        String qrtoko = namaToko + "," + qrarray[2];
-        String realDbaseToko = "";
-        byte[] data = new byte[0];
-        try {
-            data = qrtoko.getBytes("UTF-8");
-            realDbaseToko = Base64.encodeToString(data, Base64.DEFAULT);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        if (decvalue.contains("meja")) {
+            String[] qrarray = decvalue.split(",");
+            String namaToko = qrarray[1];
+            String nomorMeja = qrarray[0];
+            String qrtoko = namaToko + "," + qrarray[2];
+            String realDbaseToko = "";
+            byte[] data;
+            try {
+                data = qrtoko.getBytes("UTF-8");
+                realDbaseToko = Base64.encodeToString(data, Base64.DEFAULT);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            prefManager.setPrefDbaseToko(realDbaseToko);
+            prefManager.setPrefDbaseMeja(qrmeja);
+            prefManager.setPrefToko(namaToko);
+            prefManager.setPrefMeja(nomorMeja);
+            //t1.setText(result.getContents());
+            initComponent();
+        } else {
+            AlertDialog alertDialog;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Digistore");
+            builder.setMessage("QR Code yang anda scan bukan untuk Digital Store");
+            alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    Intent backtomain = new Intent(MainActivity.this, FirstActivity.class);
+                    startActivity(backtomain);
+                }
+            });
         }
 
-        prefManager.setPrefDbaseToko(realDbaseToko);
-        prefManager.setPrefDbaseMeja(qrmeja);
-        prefManager.setPrefToko(namaToko);
-        prefManager.setPrefMeja(nomorMeja);
-        //t1.setText(result.getContents());
-        initComponent();
         //t1.setText("Selamat Datang di "+namaToko+" ("+realDbaseToko+")"+"\nAnda berada di : "+nomorMeja);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 }

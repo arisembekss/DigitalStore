@@ -11,9 +11,17 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:id="@+id/t1"
-        android:layout_centerVertical="true"
+
         android:layout_centerHorizontal="true"
         android:textAlignment="center"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frfood"
+        android:layout_below="@+id/t1"
+        android:name="com.dtech.digitalstore.fragments.FrFood"
+         />
 
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottomBar"

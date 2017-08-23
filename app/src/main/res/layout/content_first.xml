@@ -12,8 +12,7 @@
         android:layout_width="368dp"
         android:layout_height="495dp"
 
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp">
+        >
 
         <TextView
             android:id="@+id/textView"
@@ -32,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="159dp"
+            android:layout_marginBottom="129dp"
             android:text="@string/scan_btn"
             android:textAlignment="center" />
     </RelativeLayout>
