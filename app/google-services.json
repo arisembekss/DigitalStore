@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "964350626633",
+    "firebase_url": "https://digistore-fa05c.firebaseio.com",
+    "project_id": "digistore-fa05c",
+    "storage_bucket": "digistore-fa05c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964350626633:android:6e33451fbdef694e",
+        "android_client_info": {
+          "package_name": "com.dtech.digitalstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964350626633-9dd1evkjsrhdul3m09skltgem9udd48u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dtech.digitalstore",
+            "certificate_hash": "9b5e959fc99feb1e62ea063ca14402ce60af9595"
+          }
+        },
+        {
+          "client_id": "964350626633-uvqrceupq22t9f8os8aph325e7q44qtb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0rnxvL9tcpqGvw-EZrH4ZQEB_NEHMljo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964350626633-uvqrceupq22t9f8os8aph325e7q44qtb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
