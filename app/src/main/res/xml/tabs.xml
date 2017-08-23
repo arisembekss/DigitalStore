@@ -1,14 +1,14 @@
 <tabs>
     <tab
         id="@+id/tab_food"
-        icon="@mipmap/ic_launcher"
+        icon="@mipmap/ic_local_dining"
         title="Food" />
     <tab
         id="@+id/tab_beverage"
-        icon="@mipmap/ic_launcher_round"
+        icon="@mipmap/ic_local_bar"
         title="Beverage" />
     <tab
         id="@+id/tab_order"
-        icon="@mipmap/ic_launcher"
+        icon="@mipmap/ic_monetization_on"
         title="Order" />
 </tabs>
