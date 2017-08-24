@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:id="@+id/frfood"
         android:layout_below="@+id/t1"
-        android:name="com.dtech.digitalstore.fragments.FrFood"
+        android:name="com.dtech.digitalstore.fragments.FrDummy"
          />
 
     <com.roughike.bottombar.BottomBar

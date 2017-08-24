@@ -5,5 +5,5 @@ package com.dtech.digitalstore.data;
  */
 
 public class FieldMenu {
-    public String nm_menu, keterangan, harga;
+    public String nama, keterangan, harga;
 }

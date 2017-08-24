@@ -13,12 +13,12 @@ import com.dtech.digitalstore.R;
  * Created by lenovo on 23/08/2017.
  */
 
-public class FrBeverage extends Fragment {
+public class FrDummy extends Fragment {
 
     View view;
 
-    public static FrBeverage newInstance() {
-        FrBeverage fragment = new FrBeverage();
+    public static FrDummy newInstance() {
+        FrDummy fragment = new FrDummy();
         return fragment;
     }
 
@@ -30,7 +30,7 @@ public class FrBeverage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fr_bev, container, false);
+        view = inflater.inflate(R.layout.fr_dummy, container, false);
 
         return view;
     }

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.dtech.digitalstore.config.Config;
 import com.dtech.digitalstore.config.PrefManager;
 import com.dtech.digitalstore.fragments.FrBeverage;
+import com.dtech.digitalstore.fragments.FrDummy;
 import com.dtech.digitalstore.fragments.FrFood;
 import com.dtech.digitalstore.fragments.FrOrder;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
     FragmentManager fragmentManager;
     Fragment fragment;
+    private boolean change_fragment=false;
     String prefMeja, prefToko;
 
     @Override
@@ -45,14 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
         prefManager = new PrefManager(this);
 
-        fragment = new FrFood();
+
+        /*fragment = new FrFood();
         fragmentManager = getSupportFragmentManager();
-
-
+        fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frfood, fragment);
+                    fragmentTransaction.commit();
+*/
         if (savedInstanceState == null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.frfood, fragment);
-            fragmentTransaction.commitAllowingStateLoss();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frfood, FrDummy.newInstance());
+            transaction.commit();
         }
         //initComponent();
         IntentIntegrator integrator = new IntentIntegrator(this);
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         integrator.setBarcodeImageEnabled(true);
         integrator.initiateScan();
 
-
+        initComponent();
     }
 
     private void initComponent() {
@@ -77,22 +82,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 //fragmentManager = getSupportFragmentManager();
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                if (tabId == R.id.tab_food) {
-                    fragment = new FrFood();
-
-                } else if (tabId == R.id.tab_beverage) {
-                    fragment = new FrBeverage();
-
-                } else if (tabId == R.id.tab_order) {
-                    fragment = new FrOrder();
-
-                }
+                Fragment sfragment=null;
                 /*fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();*/
-                fragmentTransaction.replace(R.id.frfood, fragment);
-                fragmentTransaction.commitAllowingStateLoss();
+                if (tabId == R.id.tab_food) {
+                    sfragment = FrFood.newInstance();
+                    /*fragmentTransaction.replace(R.id.frfood, fragment);
+                    fragmentTransaction.commit();*/
+                } else if (tabId == R.id.tab_beverage) {
+                    sfragment = FrBeverage.newInstance();
+                    /*fragmentTransaction.replace(R.id.frfood, fragment);
+                    fragmentTransaction.commit();*/
+                } else if (tabId == R.id.tab_order) {
+                    sfragment = FrOrder.newInstance();
+                    /*fragmentTransaction.replace(R.id.frfood, fragment);
+                    fragmentTransaction.commit();*/
+                }
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frfood, sfragment);
+                transaction.commit();
+                /*fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();*/
+                /*fragmentTransaction.replace(R.id.frfood, fragment);
+                fragmentTransaction.commitAllowingStateLoss();*/
 
             }
         });
@@ -103,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        change_fragment = true;
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
@@ -138,7 +151,8 @@ public class MainActivity extends AppCompatActivity {
             prefManager.setPrefToko(namaToko);
             prefManager.setPrefMeja(nomorMeja);
             //t1.setText(result.getContents());
-            initComponent();
+            //initComponent();
+
         } else {
             AlertDialog alertDialog;
 
@@ -157,6 +171,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //t1.setText("Selamat Datang di "+namaToko+" ("+realDbaseToko+")"+"\nAnda berada di : "+nomorMeja);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (change_fragment) {
+            change_fragment = false;
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frfood, FrFood.newInstance());
+            transaction.commit();
+        }
     }
 
     @Override

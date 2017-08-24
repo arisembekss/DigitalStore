@@ -16,6 +16,17 @@ import com.dtech.digitalstore.R;
 public class FrOrder extends Fragment {
 
     View view;
+
+    public static FrOrder newInstance() {
+        FrOrder fragment = new FrOrder();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
