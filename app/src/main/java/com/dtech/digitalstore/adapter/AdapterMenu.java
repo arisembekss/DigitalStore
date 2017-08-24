@@ -30,13 +30,15 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public AdapterMenu(Context context, List<FieldMenu> data) {
         this.context = context;
-        inflater = LayoutInflater.from(context);
+        //inflater = LayoutInflater.from(context);
+
         this.data = data;
         Log.d("data size", String.valueOf(data.size()));
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_menu, parent, false);
         MyHolder holder = new MyHolder(view);
         return holder;

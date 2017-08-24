@@ -39,7 +39,7 @@ public class FrFood extends Fragment {
     DatabaseReference myRef;
     FirebaseDatabase database;
     //List<FieldMenu> fieldMenus;
-    AdapterMenu mAdapter;
+    //AdapterMenu mAdapter;
     RecyclerView recyclerView;
     TextView tmenus;
 
@@ -102,10 +102,12 @@ public class FrFood extends Fragment {
                     fieldData.keterangan = String.valueOf(dataMenu.getKeterangan());
                     fieldData.harga = String.valueOf(dataMenu.getHarga());
                     fieldMenus.add(fieldData);
+
                     Log.d("datas : ", String.valueOf(dataMenu.getNama()));
                 }
-                mAdapter = new AdapterMenu(getActivity(), fieldMenus);
+                AdapterMenu mAdapter = new AdapterMenu(getActivity(), fieldMenus);
                 recyclerView.setAdapter(mAdapter);
+                recyclerView.invalidate();
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 /*String listmenus = TextUtils.join("\\n", fieldMenus);
                 tmenus.setText(listmenus);*/
