@@ -25,6 +25,7 @@ public class FirstActivity extends AppCompatActivity {
                         .setAction("Action", null).show();*/
                 Intent intent = new Intent(FirstActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

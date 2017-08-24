@@ -6,17 +6,17 @@ package com.dtech.digitalstore.data;
 
 public class DataMenu {
 
-    String namaMenu, keterangan, harga;
+    String nm_menu, keterangan, harga;
 
     public DataMenu() {
     }
 
     public String getNamaMenu() {
-        return namaMenu;
+        return nm_menu;
     }
 
     public void setNamaMenu(String namaMenu) {
-        this.namaMenu = namaMenu;
+        this.nm_menu = namaMenu;
     }
 
     public String getKeterangan() {
