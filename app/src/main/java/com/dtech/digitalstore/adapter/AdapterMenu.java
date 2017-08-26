@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,6 +69,7 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         TextView keterangan, nama, harga;
         ImageView imgmenu;
+        ImageButton imgPesan;
 
 
         public MyHolder(View itemView) {
@@ -77,6 +79,7 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             nama = (TextView) itemView.findViewById(R.id.tnama);
             harga = (TextView) itemView.findViewById(R.id.tharga);
             imgmenu = (ImageView) itemView.findViewById(R.id.imgmenu);
+            imgPesan = (ImageButton) itemView.findViewById(R.id.imgPesan);
 
         }
 

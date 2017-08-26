@@ -33,15 +33,41 @@
                     android:id="@+id/tnama"
                     android:layout_marginTop="10dp"
                     android:textAlignment="center"
-                    android:text="Keterangan"/>
+                    android:text="Nama Menu"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tketerangan"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tharga"/>
+                    android:id="@+id/tketerangan"
+                    android:text="Keterangan" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tharga"
+                            android:text="Harga"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5">
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:id="@+id/imgPesan"
+                            android:layout_alignParentRight="true"
+                            android:src="@mipmap/ic_event_note"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
