@@ -101,6 +101,7 @@ public class FrFood extends Fragment {
                     fieldData.nama = String.valueOf(dataMenu.getNama());
                     fieldData.keterangan = String.valueOf(dataMenu.getKeterangan());
                     fieldData.harga = String.valueOf(dataMenu.getHarga());
+                    fieldData.foto = String.valueOf(dataMenu.getFoto());
                     fieldMenus.add(fieldData);
 
                     Log.d("datas : ", String.valueOf(dataMenu.getNama()));

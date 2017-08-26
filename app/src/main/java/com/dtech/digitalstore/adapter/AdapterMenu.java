@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dtech.digitalstore.R;
 import com.dtech.digitalstore.data.FieldMenu;
+import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +53,10 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         myHolder.keterangan.setText(current.keterangan);
         myHolder.nama.setText(current.nama);
         myHolder.harga.setText(current.harga);
+        Picasso.with(context).load(current.foto)
+                .error(R.mipmap.ic_launcher_round)
+                .placeholder(R.mipmap.ic_launcher)
+                .into(myHolder.imgmenu);
     }
 
     @Override
@@ -61,6 +67,7 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class MyHolder extends RecyclerView.ViewHolder{
 
         TextView keterangan, nama, harga;
+        ImageView imgmenu;
 
 
         public MyHolder(View itemView) {
@@ -69,7 +76,7 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             keterangan = (TextView) itemView.findViewById(R.id.tketerangan);
             nama = (TextView) itemView.findViewById(R.id.tnama);
             harga = (TextView) itemView.findViewById(R.id.tharga);
-
+            imgmenu = (ImageView) itemView.findViewById(R.id.imgmenu);
 
         }
 
