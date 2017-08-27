@@ -70,6 +70,7 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView keterangan, nama, harga;
         ImageView imgmenu;
         ImageButton imgPesan;
+        Dialog dialogPesanan;
 
 
         public MyHolder(View itemView) {
@@ -80,6 +81,20 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             harga = (TextView) itemView.findViewById(R.id.tharga);
             imgmenu = (ImageView) itemView.findViewById(R.id.imgmenu);
             imgPesan = (ImageButton) itemView.findViewById(R.id.imgPesan);
+            imgPesan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    prosesPesanan();
+                }
+            });
+        }
+
+        private void prosesPesanan() {
+            dialogPesanan = new Dialog(context);
+            dialogPesanan.setContentView(R.layout.custom_dialog_order_menu);
+            dialogPesanan.setTitle("Konfirmasi Pesanan");
+
+            dialogPesanan.show();
 
         }
 

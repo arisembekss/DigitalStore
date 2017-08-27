@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/fab_margin"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp">
+        android:layout_marginTop="1dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,7 +43,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -69,13 +71,10 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/lind"
-                android:layout_marginTop="50dp"/>
+
         </RelativeLayout>
 
 
     </android.support.v7.widget.CardView>
+
 </LinearLayout>

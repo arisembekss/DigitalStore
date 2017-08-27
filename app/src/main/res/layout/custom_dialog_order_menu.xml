@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tdmenu"
+        android:text="Nama Menu"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tdmenu"
+        android:id="@+id/tdharga"
+        android:text="Harga : "/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tdharga"
+        android:id="@+id/tdporsi"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jumlah Pesanan : "/>
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tdjml"
+            android:inputType="number"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Porsi"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tdporsi"
+        android:id="@+id/tdtcatatan"
+        android:text="Catatan"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tdtcatatan"
+        android:id="@+id/tdecatatan"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:hint="misal: tambah garam, atau es batu sedikit, dll"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tdecatatan"
+        android:id="@+id/tdtcara"
+        android:text="Cara Pembayaran :"/>
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tdtcara"
+        android:id="@+id/rgroup">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbcash"
+            android:text="Uang Pas"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbkembalian"
+            android:text="Ada Kembalian"/>
+    </RadioGroup>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rgroup"
+        android:id="@+id/tdeuang"
+        android:hint="Input jumlah Uang"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tdtotal"
+        android:layout_below="@+id/tdeuang"
+        android:text="Total : "
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_marginTop="15dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tdtotal"
+        android:id="@+id/tdbtn"
+        android:text="Submit"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>

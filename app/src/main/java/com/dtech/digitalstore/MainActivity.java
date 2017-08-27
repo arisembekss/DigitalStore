@@ -47,13 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         prefManager = new PrefManager(this);
 
-
-        /*fragment = new FrFood();
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frfood, fragment);
-                    fragmentTransaction.commit();
-*/
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frfood, FrDummy.newInstance());
@@ -81,31 +74,18 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                //fragmentManager = getSupportFragmentManager();
                 Fragment sfragment=null;
-                /*fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();*/
+
                 if (tabId == R.id.tab_food) {
                     sfragment = FrFood.newInstance();
-                    /*fragmentTransaction.replace(R.id.frfood, fragment);
-                    fragmentTransaction.commit();*/
                 } else if (tabId == R.id.tab_beverage) {
                     sfragment = FrBeverage.newInstance();
-                    /*fragmentTransaction.replace(R.id.frfood, fragment);
-                    fragmentTransaction.commit();*/
                 } else if (tabId == R.id.tab_order) {
                     sfragment = FrOrder.newInstance();
-                    /*fragmentTransaction.replace(R.id.frfood, fragment);
-                    fragmentTransaction.commit();*/
                 }
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.frfood, sfragment);
                 transaction.commit();
-                /*fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();*/
-                /*fragmentTransaction.replace(R.id.frfood, fragment);
-                fragmentTransaction.commitAllowingStateLoss();*/
-
             }
         });
         t1 = (TextView) findViewById(R.id.t1);
@@ -150,8 +130,7 @@ public class MainActivity extends AppCompatActivity {
             prefManager.setPrefDbaseMeja(qrmeja);
             prefManager.setPrefToko(namaToko);
             prefManager.setPrefMeja(nomorMeja);
-            //t1.setText(result.getContents());
-            //initComponent();
+
 
         } else {
             AlertDialog alertDialog;
@@ -169,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-        //t1.setText("Selamat Datang di "+namaToko+" ("+realDbaseToko+")"+"\nAnda berada di : "+nomorMeja);
     }
 
     @Override
