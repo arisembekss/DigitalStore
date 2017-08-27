@@ -14,10 +14,20 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tnama"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_marginLeft="16dp"
+                android:text="Nama Menu"/>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/imgmenu"/>
+                android:id="@+id/imgmenu"
+                android:layout_below="@+id/tnama"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,13 +38,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tnama"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    android:text="Nama Menu"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

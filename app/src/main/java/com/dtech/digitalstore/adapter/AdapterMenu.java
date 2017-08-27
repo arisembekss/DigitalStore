@@ -3,11 +3,14 @@ package com.dtech.digitalstore.adapter;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -84,16 +87,54 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imgPesan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    prosesPesanan();
+                    String nmmenu = nama.getText().toString();
+                    String sharga = harga.getText().toString();
+                    prosesPesanan(nmmenu, sharga);
                 }
             });
         }
 
-        private void prosesPesanan() {
+        private void prosesPesanan(String nmmenu, final String sharga) {
+            String scat, sbayar, sporsi;
+            final TextView tdmenu, tdharga, tdtotal;
+            final EditText edcatatan, edbayar, edporsi;
+            Button btproses;
             dialogPesanan = new Dialog(context);
             dialogPesanan.setContentView(R.layout.custom_dialog_order_menu);
-            dialogPesanan.setTitle("Konfirmasi Pesanan");
+            tdmenu = (TextView) dialogPesanan.findViewById(R.id.tdmenu);
+            tdmenu.setText(nmmenu);
+            tdharga = (TextView) dialogPesanan.findViewById(R.id.tdharga);
+            tdharga.setText("Rp " + sharga);
+            tdtotal = (TextView) dialogPesanan.findViewById(R.id.tdtotal);
+            edcatatan = (EditText) dialogPesanan.findViewById(R.id.tdecatatan);
+            edbayar = (EditText) dialogPesanan.findViewById(R.id.tdeuang);
+            edporsi = (EditText) dialogPesanan.findViewById(R.id.tdjml);
+            btproses = (Button) dialogPesanan.findViewById(R.id.tdbtn);
 
+            edporsi.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    String stotal = edporsi.getText().toString();
+                    int total  ;
+                    if (stotal == "") {
+                        total = 0;
+                    } else {
+                        total = Integer.parseInt(stotal);
+                    }
+                    int itotal = total * Integer.parseInt(sharga);
+                    tdtotal.setText("Rp " + String.valueOf(itotal));
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
             dialogPesanan.show();
 
         }

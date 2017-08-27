@@ -4,26 +4,52 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tdmenu"
-        android:text="Nama Menu"
-        android:textSize="18sp"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"/>
+        android:orientation="horizontal"
+        android:id="@+id/tdlintitle">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tdmenu"
+                android:text="Nama Menu"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/tdharga"
+                android:layout_alignParentRight="true"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="Harga : "/>
+        </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tdmenu"
-        android:id="@+id/tdharga"
-        android:text="Harga : "/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/Aquamarine"
+        android:id="@+id/tdview"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/tdlintitle"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tdharga"
+        android:layout_below="@+id/tdview"
         android:id="@+id/tdporsi"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
@@ -43,6 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tdporsi"
+        android:layout_marginTop="12dp"
         android:id="@+id/tdtcatatan"
         android:text="Catatan"/>
     <EditText
@@ -51,19 +78,21 @@
         android:layout_below="@+id/tdtcatatan"
         android:id="@+id/tdecatatan"
         android:inputType="textMultiLine"
-        android:lines="3"
+        android:lines="2"
         android:hint="misal: tambah garam, atau es batu sedikit, dll"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tdecatatan"
+        android:layout_marginTop="12dp"
         android:id="@+id/tdtcara"
         android:text="Cara Pembayaran :"/>
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tdtcara"
-        android:id="@+id/rgroup">
+        android:id="@+id/rgroup"
+        android:orientation="horizontal">
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,6 +101,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:id="@+id/rbkembalian"
             android:text="Ada Kembalian"/>
     </RadioGroup>
@@ -80,6 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rgroup"
         android:id="@+id/tdeuang"
+        android:visibility="gone"
         android:hint="Input jumlah Uang"/>
     <TextView
         android:layout_width="wrap_content"
