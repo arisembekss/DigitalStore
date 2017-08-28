@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.dtech.digitalstore.R;
 import com.dtech.digitalstore.adapter.AdapterOrder;
@@ -32,9 +34,11 @@ import java.util.List;
 public class FrOrder extends Fragment {
 
     RecyclerView recyclerView;
+    TextView totalOrder;
+    Button btnOrder;
     String prefToko, prefMeja;
     SharedPreferences sharedPreferences;
-    DatabaseReference myRef;
+    DatabaseReference myRef, totalRef, viewRef;
     View view;
 
     public static FrOrder newInstance() {
@@ -61,8 +65,17 @@ public class FrOrder extends Fragment {
     private void initUi() {
         sharedPreferences = getActivity().getSharedPreferences(Config.PREF_NAME, Config.PRIVATE_MODE);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerorder);
+        totalOrder = (TextView) view.findViewById(R.id.orderTotal);
+        btnOrder = (Button) view.findViewById(R.id.btnOrder);
         prefToko = (sharedPreferences.getString(Config.NAMA_TOKO, ""));
         prefMeja = (sharedPreferences.getString(Config.DECVALUE, ""));
+        viewRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("view");
+        btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewRef.setValue("1");
+            }
+        });
     }
 
     private void initRealdbase() {
@@ -88,6 +101,20 @@ public class FrOrder extends Fragment {
                 recyclerView.setAdapter(adapter);
                 recyclerView.invalidate();
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        totalRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("totalorder");
+        totalRef.keepSynced(true);
+        totalRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                totalOrder.setText(String.valueOf(dataSnapshot.getValue()));
             }
 
             @Override

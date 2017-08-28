@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.dtech.digitalstore.R;
@@ -55,13 +56,24 @@ public class AdapterOrder extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     class MyHolder extends RecyclerView.ViewHolder{
 
-        TextView itemmenu, itemporsi, itemcat;
+        TextView itemmenu, itemporsi, itemcat, itemkey;
+        ImageButton itmbtn;
+
         public MyHolder(View itemView) {
             super(itemView);
 
             itemmenu = (TextView) itemView.findViewById(R.id.itemmenu);
             itemporsi = (TextView) itemView.findViewById(R.id.itemporsi);
             itemcat = (TextView) itemView.findViewById(R.id.itemcat);
+            itemkey = (TextView) itemView.findViewById(R.id.tcat);
+            itmbtn = (ImageButton) itemView.findViewById(R.id.itmbtn);
+            itmbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
         }
     }
 }
