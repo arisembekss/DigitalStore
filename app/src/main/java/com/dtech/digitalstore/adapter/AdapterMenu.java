@@ -102,42 +102,6 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         private void prosesPesanan(String nmmenu, final String sharga) {
-            String scat, sbayar, sporsi;
-            final TextView tdmenu, tdharga, tdtotal;
-            final EditText edcatatan, edbayar, edporsi;
-            NumberPicker np;
-            Button btproses;
-            dialogPesanan = new Dialog(context);
-            dialogPesanan.setContentView(R.layout.custom_dialog_order_menu);
-            tdmenu = (TextView) dialogPesanan.findViewById(R.id.tdmenu);
-            tdmenu.setText(nmmenu);
-            tdharga = (TextView) dialogPesanan.findViewById(R.id.tdharga);
-            tdharga.setText("Rp " + sharga);
-            tdtotal = (TextView) dialogPesanan.findViewById(R.id.tdtotal);
-            edcatatan = (EditText) dialogPesanan.findViewById(R.id.tdecatatan);
-            edbayar = (EditText) dialogPesanan.findViewById(R.id.tdeuang);
-            //edporsi = (EditText) dialogPesanan.findViewById(R.id.tdjml);
-            btproses = (Button) dialogPesanan.findViewById(R.id.tdbtn);
-            np = (NumberPicker) dialogPesanan.findViewById(R.id.tdnp);
-            np.setMinValue(0);
-            //Specify the maximum value/number of NumberPicker
-            np.setMaxValue(20);
-
-            //Gets whether the selector wheel wraps when reaching the min/max value.
-            np.setWrapSelectorWheel(true);
-
-            //Set a value change listener for NumberPicker
-            np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal){
-                    //Display the newly selected number from picker
-                    tdtotal.setText("Selected Number : " + newVal);
-                }
-            });
-
-
-
-            dialogPesanan.show();
 
         }
 
