@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,8 +19,11 @@ import com.dtech.digitalstore.config.Config;
 import com.dtech.digitalstore.config.PrefManager;
 import com.dtech.digitalstore.data.DataMenu;
 import com.dtech.digitalstore.data.DataPesan;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +40,8 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
     RadioButton rb1, rb2;
 
     String nmmenu, sharga;
-    DatabaseReference orderRef;
+    String totalorder;
+    DatabaseReference orderRef, totalorderRef;
     PrefManager prefManager;
     SharedPreferences sharedPreferences;
 
@@ -46,16 +51,40 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_confirm);
 
         prefManager = new PrefManager(this);
+        sharedPreferences = getSharedPreferences(Config.PREF_NAME, Config.PRIVATE_MODE);
 
         Intent confirm = getIntent();
         nmmenu = confirm.getStringExtra("nmmenu");
         sharga = confirm.getStringExtra("sharga");
+        String prefMeja = (sharedPreferences.getString(Config.DECVALUE, ""));
+        String preftoko = (sharedPreferences.getString(Config.NAMA_TOKO, ""));
+        totalorderRef = FirebaseDatabase.getInstance().getReference("warung/"+preftoko+"/"+prefMeja+"/totalorder");
+        totalorderRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //totalorder = (String) dataSnapshot.getValue();
+                /*String stotalorder = dataSnapshot.getValue().toString();*/
+                totalorder = String.valueOf(dataSnapshot.getValue());
+                Log.d("Value totalorder ", String.valueOf(dataSnapshot.getValue()));
+                /*if (stotalorder == "" || stotalorder == null || stotalorder.matches("")) {
+                    totalorder = "0";
+                } else {
+                    totalorder = stotalorder;
+                }*/
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        orderRef= FirebaseDatabase.getInstance().getReference().child("warung").child(preftoko).child(prefMeja).child("order");
         initUi();
 
     }
 
     private void initUi() {
-        sharedPreferences = getSharedPreferences(Config.PREF_NAME, Config.PRIVATE_MODE);
+
         tdmenu = (TextView) findViewById(R.id.tdmenu);
         tdmenu.setText(nmmenu);
         tdharga = (TextView) findViewById(R.id.tdharga);
@@ -114,13 +143,13 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
                 sbayar = sedbayar;
             }
         }
-        pushRealDbase(nmmenu, String.valueOf(np.getValue()), edcatatan.getText().toString(), String.valueOf(stotal), sbayar);
+        pushRealDbase(nmmenu, String.valueOf(np.getValue()), edcatatan.getText().toString(), String.valueOf(stotal));
     }
 
-    private void pushRealDbase(String namamenu, String jumlah, String keterangan, String total, String bayar ) {
-        String prefMeja = (sharedPreferences.getString(Config.DECVALUE, ""));
-        String preftoko = (sharedPreferences.getString(Config.NAMA_TOKO, ""));
-        orderRef= FirebaseDatabase.getInstance().getReference().child("warung").child(preftoko).child(prefMeja).child("order");
+    private void pushRealDbase(String namamenu, String jumlah, String keterangan, String total) {
+
+
+        String key = orderRef.push().getKey();
 
         List<DataPesan> pesananEntries = new ArrayList<>();
 
@@ -130,15 +159,17 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
         dataPesan.setJumlah(jumlah);
         dataPesan.setKeterangan(keterangan);
         dataPesan.setTotal(total);
-        dataPesan.setBayar(bayar);
+        dataPesan.setKey(key);
+        //dataPesan.setBayar(bayar);
 
         pesananEntries.add(dataPesan);
 
         for (DataPesan dataPesan1 : pesananEntries) {
-            String key = orderRef.push().getKey();
             orderRef.child(key).setValue(dataPesan1);
         }
 
+        int newTotal = Integer.parseInt(totalorder) + Integer.parseInt(total);
+        totalorderRef.setValue(String.valueOf(newTotal));
         this.finish();
     }
 }

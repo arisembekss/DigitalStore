@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     Fragment fragment;
     private boolean change_fragment=false;
-    String prefMeja, prefToko;
+    String prefMeja, prefToko, namaToko, nomorMeja;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             transaction.replace(R.id.frfood, FrDummy.newInstance());
             transaction.commit();
         }
-        //initComponent();
+        initComponent();
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setPrompt("");
         integrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         integrator.setBarcodeImageEnabled(true);
         integrator.initiateScan();
 
-        initComponent();
+        //initComponent();
     }
 
     private void initComponent() {
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });
         t1 = (TextView) findViewById(R.id.t1);
 
-        t1.setText("Selamat Datang di "+prefToko+"\nAnda berada di : "+prefMeja);
+
     }
 
     @Override
@@ -114,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
         String decvalue = new String(decoded);
         if (decvalue.contains("meja")) {
             String[] qrarray = decvalue.split(",");
-            String namaToko = qrarray[1];
-            String nomorMeja = qrarray[0];
+            namaToko = qrarray[1];
+            nomorMeja = qrarray[0];
             String qrtoko = namaToko + "," + qrarray[2];
             String realDbaseToko = "";
             byte[] data;
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             prefManager.setPrefDbaseMeja(qrmeja);
             prefManager.setPrefToko(namaToko);
             prefManager.setPrefMeja(nomorMeja);
+            t1.setText("Selamat Datang di "+namaToko+"\nAnda berada di : "+nomorMeja);
 
 
         } else {
