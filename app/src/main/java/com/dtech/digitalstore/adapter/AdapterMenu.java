@@ -2,6 +2,7 @@ package com.dtech.digitalstore.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,8 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.dtech.digitalstore.ConfirmActivity;
 import com.dtech.digitalstore.R;
 import com.dtech.digitalstore.data.FieldMenu;
 import com.squareup.picasso.Picasso;
@@ -89,7 +92,11 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View view) {
                     String nmmenu = nama.getText().toString();
                     String sharga = harga.getText().toString();
-                    prosesPesanan(nmmenu, sharga);
+                    /*prosesPesanan(nmmenu, sharga);*/
+                    Intent confirm = new Intent(context, ConfirmActivity.class);
+                    confirm.putExtra("nmmenu", nmmenu);
+                    confirm.putExtra("sharga", sharga);
+                    context.startActivity(confirm);
                 }
             });
         }
@@ -98,6 +105,7 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String scat, sbayar, sporsi;
             final TextView tdmenu, tdharga, tdtotal;
             final EditText edcatatan, edbayar, edporsi;
+            NumberPicker np;
             Button btproses;
             dialogPesanan = new Dialog(context);
             dialogPesanan.setContentView(R.layout.custom_dialog_order_menu);
@@ -108,33 +116,27 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tdtotal = (TextView) dialogPesanan.findViewById(R.id.tdtotal);
             edcatatan = (EditText) dialogPesanan.findViewById(R.id.tdecatatan);
             edbayar = (EditText) dialogPesanan.findViewById(R.id.tdeuang);
-            edporsi = (EditText) dialogPesanan.findViewById(R.id.tdjml);
+            //edporsi = (EditText) dialogPesanan.findViewById(R.id.tdjml);
             btproses = (Button) dialogPesanan.findViewById(R.id.tdbtn);
+            np = (NumberPicker) dialogPesanan.findViewById(R.id.tdnp);
+            np.setMinValue(0);
+            //Specify the maximum value/number of NumberPicker
+            np.setMaxValue(20);
 
-            edporsi.addTextChangedListener(new TextWatcher() {
+            //Gets whether the selector wheel wraps when reaching the min/max value.
+            np.setWrapSelectorWheel(true);
+
+            //Set a value change listener for NumberPicker
+            np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    String stotal = edporsi.getText().toString();
-                    int total  ;
-                    if (stotal == "") {
-                        total = 0;
-                    } else {
-                        total = Integer.parseInt(stotal);
-                    }
-                    int itotal = total * Integer.parseInt(sharga);
-                    tdtotal.setText("Rp " + String.valueOf(itotal));
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
+                public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                    //Display the newly selected number from picker
+                    tdtotal.setText("Selected Number : " + newVal);
                 }
             });
+
+
+
             dialogPesanan.show();
 
         }
