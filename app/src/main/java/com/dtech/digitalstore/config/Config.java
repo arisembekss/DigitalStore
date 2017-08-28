@@ -12,4 +12,5 @@ public class Config {
     public static final String NOMOR_MEJA = "nomor-meja";
     public static final String ENC_NOMOR_MEJA = "enc-meja";
     public static final String ENC_NAMA_TOKO = "enc-toko";
+    public static final String DECVALUE = "decvalue";
 }

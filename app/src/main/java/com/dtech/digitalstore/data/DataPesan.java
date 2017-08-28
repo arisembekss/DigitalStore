@@ -5,7 +5,7 @@ package com.dtech.digitalstore.data;
  */
 
 public class DataPesan {
-    String namamenu, jumlah, keterangan, total, bayar;
+    String namamenu, jumlah, keterangan, total, bayar, key;
 
     public DataPesan() {
 
@@ -49,5 +49,13 @@ public class DataPesan {
 
     public void setBayar(String bayar) {
         this.bayar = bayar;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

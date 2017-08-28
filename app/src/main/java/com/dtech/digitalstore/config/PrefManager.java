@@ -30,6 +30,11 @@ public class PrefManager {
         editor.commit();
     }
 
+    public void setPrefDecValue(String decValue) {
+        editor.putString(Config.DECVALUE, decValue);
+        editor.commit();
+    }
+
     public void setPrefDbaseMeja(String encMeja) {
         editor.putString(Config.ENC_NOMOR_MEJA, encMeja);
         editor.commit();
@@ -39,4 +44,6 @@ public class PrefManager {
         editor.putString(Config.ENC_NAMA_TOKO, encToko);
         editor.commit();
     }
+
+
 }

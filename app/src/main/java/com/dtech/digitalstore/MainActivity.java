@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            prefManager.setPrefDecValue(decvalue);
             prefManager.setPrefDbaseToko(realDbaseToko);
             prefManager.setPrefDbaseMeja(qrmeja);
             prefManager.setPrefToko(namaToko);
