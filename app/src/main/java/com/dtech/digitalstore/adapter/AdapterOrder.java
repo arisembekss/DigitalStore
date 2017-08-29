@@ -23,11 +23,13 @@ public class AdapterOrder extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private Context context;
     private LayoutInflater inflater;
+    int status;
     List<FieldPesan> data = Collections.emptyList();
 
     public AdapterOrder(Context context, List<FieldPesan> data) {
         this.context = context;
         this.data = data;
+        /*this.status = status;*/
     }
 
     @Override
@@ -46,6 +48,11 @@ public class AdapterOrder extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         myHolder.itemmenu.setText(current.namamenu);
         myHolder.itemporsi.setText(current.jumlah);
         myHolder.itemcat.setText(current.keterangan);
+        /*if (status == 0) {
+            myHolder.itmbtn.setVisibility(View.VISIBLE);
+        } else {
+            myHolder.itmbtn.setVisibility(View.INVISIBLE);
+        }*/
 
     }
 

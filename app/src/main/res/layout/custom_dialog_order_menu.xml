@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -59,11 +59,11 @@
             android:text="Untuk : "
             android:id="@+id/tvpesan"
             android:layout_centerVertical="true"/>
-        <!--<EditText
+        &lt;!&ndash;<EditText
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/tdjml"
-            android:inputType="number"/>-->
+            android:inputType="number"/>&ndash;&gt;
         <NumberPicker
             android:id="@+id/tdnp"
             android:layout_toRightOf="@+id/tvpesan"
@@ -99,13 +99,23 @@
         android:layout_below="@+id/tdecatatan"
         android:layout_marginTop="12dp"
         android:id="@+id/tdtcara"
-        android:text="Cara Pembayaran :"/>
+        android:text="Cara Pembayaran :"/>-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dtitle"
+
+        android:text="Pilih Cara Pembayaran"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_marginTop="15dp"/>
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tdtcara"
+        android:layout_below="@+id/dtitle"
+        android:layout_marginTop="15dp"
         android:id="@+id/rgroup"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,7 +124,6 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
             android:id="@+id/rbkembalian"
             android:text="Ada Kembalian"/>
     </RadioGroup>
@@ -122,23 +131,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rgroup"
-        android:id="@+id/tdeuang"
+        android:id="@+id/deuang"
         android:visibility="gone"
         android:hint="Input jumlah Uang"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tdtotal"
-        android:layout_below="@+id/tdeuang"
-        android:text="Total : "
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:layout_marginTop="15dp"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tdtotal"
-        android:id="@+id/tdbtn"
+        android:layout_below="@+id/rgroup"
+        android:id="@+id/dbtn"
         android:text="Submit"
         android:layout_marginTop="15dp"
         android:layout_alignParentRight="true"/>
