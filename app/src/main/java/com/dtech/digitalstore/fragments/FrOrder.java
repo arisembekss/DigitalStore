@@ -45,7 +45,7 @@ public class FrOrder extends Fragment {
     Button btnOrder;
     String prefToko, prefMeja;
     SharedPreferences sharedPreferences;
-    DatabaseReference myRef, totalRef, viewRef, pembayaranRef, statusRef;
+    DatabaseReference myRef, totalRef, viewRef, pembayaranRef, statusRef, aktifOrderRef;
     View view;
     RelativeLayout rel1, rel2;
 
@@ -65,7 +65,7 @@ public class FrOrder extends Fragment {
         view = inflater.inflate(R.layout.fr_order, container, false);
 
         initUi();
-        statusRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("statuspesan");
+        /*statusRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("statuspesan");
         statusRef.keepSynced(true);
         statusRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -85,8 +85,8 @@ public class FrOrder extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
-        //initRealdbase();
+        });*/
+        initRealdbase();
 
         return view;
     }
@@ -100,6 +100,7 @@ public class FrOrder extends Fragment {
         prefMeja = (sharedPreferences.getString(Config.DECVALUE, ""));
         viewRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("view");
         pembayaranRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("pembayaran");
+        aktifOrderRef = FirebaseDatabase.getInstance().getReference("warung/"+prefToko+"/"+prefMeja+"/aktifOrder");
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,7 +145,8 @@ public class FrOrder extends Fragment {
                 if (selectedid == R.id.rbcash) {
                     pembayaranRef.setValue(orderTotal);
                     viewRef.setValue("1");
-                    initRealdbase();
+                    //initRealdbase();
+                    aktifOrderRef.removeValue();
                     btnOrder.setVisibility(View.INVISIBLE);
                     dialogBuy.dismiss();
                 } else {
@@ -155,12 +157,13 @@ public class FrOrder extends Fragment {
                     } else {
                         pembayaranRef.setValue(totBayar);
                         viewRef.setValue("1");
-                        initRealdbase();
+                        //initRealdbase();
+                        aktifOrderRef.removeValue();
                         btnOrder.setVisibility(View.INVISIBLE);
                         dialogBuy.dismiss();
                     }
                 }
-                statusRef.setValue("1");
+                //statusRef.setValue("1");
             }
         });
 

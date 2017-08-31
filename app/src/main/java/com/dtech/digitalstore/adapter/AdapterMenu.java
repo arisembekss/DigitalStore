@@ -5,17 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.dtech.digitalstore.ConfirmActivity;
@@ -41,8 +36,7 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private LayoutInflater inflater;
     List<FieldMenu> data = Collections.emptyList();
-    FieldMenu current;
-    int currentPos = 0;
+
 
     public AdapterMenu(Context context, List<FieldMenu> data) {
         this.context = context;
@@ -83,7 +77,7 @@ public class AdapterMenu extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView keterangan, nama, harga;
         ImageView imgmenu;
         ImageButton imgPesan;
-        Dialog dialogPesanan;
+
         DatabaseReference statusRef;
         String status, prefToko, prefMeja;
         SharedPreferences sharedPreferences;

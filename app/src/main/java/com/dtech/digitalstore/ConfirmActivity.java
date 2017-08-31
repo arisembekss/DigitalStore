@@ -26,7 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConfirmActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,9 +41,10 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
     RadioGroup radioGroup;
     RadioButton rb1, rb2;
 
+    String orderAktif;
     String nmmenu, sharga;
     String totalorder;
-    DatabaseReference orderRef, totalorderRef;
+    DatabaseReference orderRef, totalorderRef, aktifOrderRef;
     PrefManager prefManager;
     SharedPreferences sharedPreferences;
 
@@ -79,6 +82,7 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         orderRef= FirebaseDatabase.getInstance().getReference().child("warung").child(preftoko).child(prefMeja).child("order");
+        aktifOrderRef = FirebaseDatabase.getInstance().getReference("warung/"+preftoko+"/"+prefMeja+"/aktifOrder");
         initUi();
 
     }
@@ -149,7 +153,9 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
     private void pushRealDbase(String namamenu, String jumlah, String keterangan, String total) {
 
 
+
         String key = orderRef.push().getKey();
+        String keyOrder = aktifOrderRef.push().getKey();
 
         List<DataPesan> pesananEntries = new ArrayList<>();
 
@@ -170,6 +176,29 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
 
         int newTotal = Integer.parseInt(totalorder) + Integer.parseInt(total);
         totalorderRef.setValue(String.valueOf(newTotal));
+        Map<String,Object> taskMap = new HashMap<String,Object>();
+        taskMap.put("keyvalue", key);
+
+        //final String orderAktif;
+        /*aktifOrderRef.keepSynced(true);
+        aktifOrderRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                orderAktif = String.valueOf(dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        if (orderAktif=="0") {
+            aktifOrderRef.setValue(key + ",");
+        } else {
+            aktifOrderRef.setValue(orderAktif + key + ",");
+        }*/
+        aktifOrderRef.child(keyOrder).child("key").setValue(key);
+
         this.finish();
     }
 }
