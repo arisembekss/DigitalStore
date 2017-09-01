@@ -13,4 +13,6 @@ public class Config {
     public static final String ENC_NOMOR_MEJA = "enc-meja";
     public static final String ENC_NAMA_TOKO = "enc-toko";
     public static final String DECVALUE = "decvalue";
+    public static final String SESSION_KEY = "session-key";
+
 }

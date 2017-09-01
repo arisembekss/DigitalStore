@@ -45,5 +45,10 @@ public class PrefManager {
         editor.commit();
     }
 
+    public void setSessionPesanan(String sessionKey) {
+        editor.putString(Config.SESSION_KEY, sessionKey);
+        editor.commit();
+    }
+
 
 }

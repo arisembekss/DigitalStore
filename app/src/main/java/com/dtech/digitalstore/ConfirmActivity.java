@@ -41,7 +41,7 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
     RadioGroup radioGroup;
     RadioButton rb1, rb2;
 
-    String orderAktif;
+    String sessionPesan;
     String nmmenu, sharga;
     String totalorder;
     DatabaseReference orderRef, totalorderRef, aktifOrderRef;
@@ -55,6 +55,7 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
 
         prefManager = new PrefManager(this);
         sharedPreferences = getSharedPreferences(Config.PREF_NAME, Config.PRIVATE_MODE);
+        sessionPesan = (sharedPreferences.getString(Config.SESSION_KEY, ""));
 
         Intent confirm = getIntent();
         nmmenu = confirm.getStringExtra("nmmenu");
@@ -83,6 +84,10 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
         });
         orderRef= FirebaseDatabase.getInstance().getReference().child("warung").child(preftoko).child(prefMeja).child("order");
         aktifOrderRef = FirebaseDatabase.getInstance().getReference("warung/"+preftoko+"/"+prefMeja+"/aktifOrder");
+        if (sessionPesan == "") {
+            sessionPesan = aktifOrderRef.push().getKey();
+            prefManager.setSessionPesanan(sessionPesan);
+        }
         initUi();
 
     }
@@ -155,7 +160,8 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
 
 
         String key = orderRef.push().getKey();
-        String keyOrder = aktifOrderRef.push().getKey();
+
+        //sessionPesan = aktifOrderRef.push().getKey();
 
         List<DataPesan> pesananEntries = new ArrayList<>();
 
@@ -172,6 +178,7 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
 
         for (DataPesan dataPesan1 : pesananEntries) {
             orderRef.child(key).setValue(dataPesan1);
+            aktifOrderRef.child(sessionPesan).child(key).setValue(dataPesan1);
         }
 
         int newTotal = Integer.parseInt(totalorder) + Integer.parseInt(total);
@@ -197,7 +204,7 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             aktifOrderRef.setValue(orderAktif + key + ",");
         }*/
-        aktifOrderRef.child(keyOrder).child("key").setValue(key);
+        //aktifOrderRef.child(keyOrder).child("key").setValue(key);
 
         this.finish();
     }

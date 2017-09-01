@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 import com.dtech.digitalstore.R;
 import com.dtech.digitalstore.adapter.AdapterOrder;
 import com.dtech.digitalstore.config.Config;
+import com.dtech.digitalstore.config.PrefManager;
 import com.dtech.digitalstore.data.DataPesan;
 import com.dtech.digitalstore.data.FieldPesan;
 import com.google.firebase.database.DataSnapshot;
@@ -43,11 +43,13 @@ public class FrOrder extends Fragment {
     RecyclerView recyclerView;
     TextView totalOrder;
     Button btnOrder;
-    String prefToko, prefMeja;
+    String prefToko, prefMeja, sessionPesan;
     SharedPreferences sharedPreferences;
-    DatabaseReference myRef, totalRef, viewRef, pembayaranRef, statusRef, aktifOrderRef;
+    DatabaseReference myRef, totalRef, viewRef, pembayaranRef, aktifOrderRef;
     View view;
+    PrefManager prefManager;
     RelativeLayout rel1, rel2;
+    List<FieldPesan> fieldPesen;
 
     public static FrOrder newInstance() {
         FrOrder fragment = new FrOrder();
@@ -63,6 +65,8 @@ public class FrOrder extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fr_order, container, false);
+
+        prefManager = new PrefManager(getActivity());
 
         initUi();
         /*statusRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("statuspesan");
@@ -93,11 +97,13 @@ public class FrOrder extends Fragment {
 
     private void initUi() {
         sharedPreferences = getActivity().getSharedPreferences(Config.PREF_NAME, Config.PRIVATE_MODE);
+        sessionPesan = (sharedPreferences.getString(Config.SESSION_KEY, ""));
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerorder);
         totalOrder = (TextView) view.findViewById(R.id.orderTotal);
         btnOrder = (Button) view.findViewById(R.id.btnOrder);
         prefToko = (sharedPreferences.getString(Config.NAMA_TOKO, ""));
         prefMeja = (sharedPreferences.getString(Config.DECVALUE, ""));
+        myRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("order")/*.orderByChild("key").startAt(keyStart).endAt(keyEnd).getRef()*/;
         viewRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("view");
         pembayaranRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("pembayaran");
         aktifOrderRef = FirebaseDatabase.getInstance().getReference("warung/"+prefToko+"/"+prefMeja+"/aktifOrder");
@@ -119,8 +125,8 @@ public class FrOrder extends Fragment {
         dialogBuy.setTitle("Konfirmasi Pembayaran");
 
         final RadioGroup rgroup = (RadioGroup) dialogBuy.findViewById(R.id.rgroup);
-        RadioButton rb1 = (RadioButton) dialogBuy.findViewById(R.id.rbcash);
-        RadioButton rb2 = (RadioButton) dialogBuy.findViewById(R.id.rbkembalian);
+        /*RadioButton rb1 = (RadioButton) dialogBuy.findViewById(R.id.rbcash);
+        RadioButton rb2 = (RadioButton) dialogBuy.findViewById(R.id.rbkembalian);*/
         final EditText duang = (EditText) dialogBuy.findViewById(R.id.deuang);
         final Button btn = (Button) dialogBuy.findViewById(R.id.dbtn);
 
@@ -146,7 +152,11 @@ public class FrOrder extends Fragment {
                     pembayaranRef.setValue(orderTotal);
                     viewRef.setValue("1");
                     //initRealdbase();
-                    aktifOrderRef.removeValue();
+                    //aktifOrderRef.removeValue();
+                    //insertProses();
+                    myRef.removeValue();
+                    prefManager.setSessionPesanan("");
+
                     btnOrder.setVisibility(View.INVISIBLE);
                     dialogBuy.dismiss();
                 } else {
@@ -158,8 +168,12 @@ public class FrOrder extends Fragment {
                         pembayaranRef.setValue(totBayar);
                         viewRef.setValue("1");
                         //initRealdbase();
-                        aktifOrderRef.removeValue();
+                        //aktifOrderRef.removeValue();
+                        myRef.removeValue();
+                        prefManager.setSessionPesanan("");
+
                         btnOrder.setVisibility(View.INVISIBLE);
+                        //insertProses();
                         dialogBuy.dismiss();
                     }
                 }
@@ -172,18 +186,13 @@ public class FrOrder extends Fragment {
 
     private void initRealdbase() {
 
-        /*if (status == 0) {
-
-        } else {
-
-        }*/
-        myRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("order");
-        final List<FieldPesan> fieldPesen = new ArrayList<>();
+        fieldPesen = new ArrayList<>();
         myRef.keepSynced(true);
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                fieldPesen.clear();
+                //fieldPesen.clear();
                 Log.d("count : ", "" + dataSnapshot.getChildrenCount());
                 for (DataSnapshot childs : dataSnapshot.getChildren()) {
                     DataPesan dataPesan = childs.getValue(DataPesan.class);
@@ -222,51 +231,6 @@ public class FrOrder extends Fragment {
         });
     }
 
-    private void prosesdbase() {
 
-        myRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("order");
-        final List<FieldPesan> fieldPesen = new ArrayList<>();
-        myRef.keepSynced(true);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                fieldPesen.clear();
-                Log.d("count : ", "" + dataSnapshot.getChildrenCount());
-                for (DataSnapshot childs : dataSnapshot.getChildren()) {
-                    DataPesan dataPesan = childs.getValue(DataPesan.class);
-                    FieldPesan fieldData = new FieldPesan();
-                    fieldData.namamenu = String.valueOf(dataPesan.getNamamenu());
-                    fieldData.jumlah = String.valueOf(dataPesan.getJumlah());
-                    fieldData.keterangan = String.valueOf(dataPesan.getKeterangan());
-                    fieldData.key = String.valueOf(dataPesan.getKey());
-                    fieldPesen.add(fieldData);
-                }
-
-                AdapterOrder adapter = new AdapterOrder(getActivity(), fieldPesen);
-                recyclerView.setAdapter(adapter);
-                recyclerView.invalidate();
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        totalRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("totalorder");
-        totalRef.keepSynced(true);
-        totalRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                totalOrder.setText(String.valueOf(dataSnapshot.getValue()));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 }
 
