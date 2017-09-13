@@ -178,7 +178,7 @@ public class ConfirmActivity extends AppCompatActivity implements View.OnClickLi
 
         for (DataPesan dataPesan1 : pesananEntries) {
             orderRef.child(key).setValue(dataPesan1);
-            aktifOrderRef.child(sessionPesan).child(key).setValue(dataPesan1);
+            //aktifOrderRef.child(sessionPesan).child(key).setValue(dataPesan1);
         }
 
         int newTotal = Integer.parseInt(totalorder) + Integer.parseInt(total);

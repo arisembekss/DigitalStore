@@ -23,6 +23,7 @@ import com.dtech.digitalstore.R;
 import com.dtech.digitalstore.adapter.AdapterOrder;
 import com.dtech.digitalstore.config.Config;
 import com.dtech.digitalstore.config.PrefManager;
+import com.dtech.digitalstore.data.DataOrder;
 import com.dtech.digitalstore.data.DataPesan;
 import com.dtech.digitalstore.data.FieldPesan;
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +51,7 @@ public class FrOrder extends Fragment {
     PrefManager prefManager;
     RelativeLayout rel1, rel2;
     List<FieldPesan> fieldPesen;
+    List<DataOrder> pesananentries = new ArrayList<>();
 
     public static FrOrder newInstance() {
         FrOrder fragment = new FrOrder();
@@ -106,7 +108,7 @@ public class FrOrder extends Fragment {
         myRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("order")/*.orderByChild("key").startAt(keyStart).endAt(keyEnd).getRef()*/;
         viewRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("view");
         pembayaranRef = FirebaseDatabase.getInstance().getReference().child("warung").child(prefToko).child(prefMeja).child("pembayaran");
-        aktifOrderRef = FirebaseDatabase.getInstance().getReference("warung/"+prefToko+"/"+prefMeja+"/aktifOrder");
+        aktifOrderRef = FirebaseDatabase.getInstance().getReference("warung/"+prefToko+"/aktifOrder/"+prefMeja);
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,8 +155,8 @@ public class FrOrder extends Fragment {
                     viewRef.setValue("1");
                     //initRealdbase();
                     //aktifOrderRef.removeValue();
-                    //insertProses();
-                    myRef.removeValue();
+                    insertProses();
+                    //myRef.removeValue();
                     prefManager.setSessionPesanan("");
 
                     btnOrder.setVisibility(View.INVISIBLE);
@@ -169,7 +171,8 @@ public class FrOrder extends Fragment {
                         viewRef.setValue("1");
                         //initRealdbase();
                         //aktifOrderRef.removeValue();
-                        myRef.removeValue();
+                        insertProses();
+                        //myRef.removeValue();
                         prefManager.setSessionPesanan("");
 
                         btnOrder.setVisibility(View.INVISIBLE);
@@ -184,6 +187,14 @@ public class FrOrder extends Fragment {
         dialogBuy.show();
     }
 
+    private void insertProses() {
+        //String key = aktifOrderRef.push().getKey();
+        //for (DataOrder dataPesan1 : pesananentries) {
+            //orderRef.child(key).setValue(dataPesan1);
+            aktifOrderRef.child(sessionPesan)./*child(key).*/setValue(pesananentries);
+        //}
+    }
+
     private void initRealdbase() {
 
         fieldPesen = new ArrayList<>();
@@ -193,6 +204,7 @@ public class FrOrder extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //fieldPesen.clear();
+                DataOrder dataOrder = new DataOrder();
                 Log.d("count : ", "" + dataSnapshot.getChildrenCount());
                 for (DataSnapshot childs : dataSnapshot.getChildren()) {
                     DataPesan dataPesan = childs.getValue(DataPesan.class);
@@ -201,9 +213,16 @@ public class FrOrder extends Fragment {
                     fieldData.jumlah = String.valueOf(dataPesan.getJumlah());
                     fieldData.keterangan = String.valueOf(dataPesan.getKeterangan());
                     fieldData.key = String.valueOf(dataPesan.getKey());
+                    dataOrder.setNamamenu(fieldData.namamenu);
+                    dataOrder.setJumlah(fieldData.jumlah);
+                    dataOrder.setKeterangan(fieldData.keterangan);
+                    dataOrder.setKey(fieldData.key);
+                    dataOrder.setMeja(prefMeja);
                     fieldPesen.add(fieldData);
-                }
 
+
+                }
+                pesananentries.add(dataOrder);
                 AdapterOrder adapter = new AdapterOrder(getActivity(), fieldPesen);
                 recyclerView.setAdapter(adapter);
                 recyclerView.invalidate();
