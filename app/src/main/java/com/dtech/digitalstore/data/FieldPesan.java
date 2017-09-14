@@ -6,5 +6,5 @@ package com.dtech.digitalstore.data;
 
 public class FieldPesan {
 
-    public String jumlah, keterangan, namamenu, key;
+    public String jumlah, keterangan, namamenu, key, meja;
 }

@@ -51,7 +51,7 @@ public class FrOrder extends Fragment {
     PrefManager prefManager;
     RelativeLayout rel1, rel2;
     List<FieldPesan> fieldPesen;
-    List<DataOrder> pesananentries = new ArrayList<>();
+    List<FieldPesan> pesananentries = new ArrayList<>();
 
     public static FrOrder newInstance() {
         FrOrder fragment = new FrOrder();
@@ -189,10 +189,44 @@ public class FrOrder extends Fragment {
 
     private void insertProses() {
         //String key = aktifOrderRef.push().getKey();
-        //for (DataOrder dataPesan1 : pesananentries) {
-            //orderRef.child(key).setValue(dataPesan1);
-            aktifOrderRef.child(sessionPesan)./*child(key).*/setValue(pesananentries);
-        //}
+        //Log.d("valueoflist", pesananentries);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //fieldPesen.clear();
+                DataOrder dataOrder = new DataOrder();
+                Log.d("count : ", "" + dataSnapshot.getChildrenCount());
+                for (DataSnapshot childs : dataSnapshot.getChildren()) {
+                    DataOrder dataPesan = childs.getValue(DataOrder.class);
+                    FieldPesan fieldData = new FieldPesan();
+                    fieldData.namamenu = String.valueOf(dataPesan.getNamamenu());
+                    fieldData.jumlah = String.valueOf(dataPesan.getJumlah());
+                    fieldData.keterangan = String.valueOf(dataPesan.getKeterangan());
+                    fieldData.key = String.valueOf(dataPesan.getKey());
+
+                    /*dataOrder.setNamamenu(fieldData.namamenu);
+                    dataOrder.setJumlah(fieldData.jumlah);
+                    dataOrder.setKeterangan(fieldData.keterangan);
+                    dataOrder.setKey(fieldData.key);
+                    dataOrder.setMeja(prefMeja);*/
+                    //fieldPesen.add(fieldData);
+                    pesananentries.add(fieldData);
+
+                }
+
+                for (FieldPesan dataPesan1 : pesananentries) {
+                    //orderRef.child(key).setValue(dataPesan1);
+                    aktifOrderRef.push()/*.child(sessionPesan)*/./*child(key).*/setValue(dataPesan1);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void initRealdbase() {
@@ -219,10 +253,10 @@ public class FrOrder extends Fragment {
                     dataOrder.setKey(fieldData.key);
                     dataOrder.setMeja(prefMeja);
                     fieldPesen.add(fieldData);
-
+                    //pesananentries.add(dataOrder);
 
                 }
-                pesananentries.add(dataOrder);
+
                 AdapterOrder adapter = new AdapterOrder(getActivity(), fieldPesen);
                 recyclerView.setAdapter(adapter);
                 recyclerView.invalidate();
